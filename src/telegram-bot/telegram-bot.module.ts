@@ -13,9 +13,6 @@ import { TelegramBotService } from './telegram-bot.service';
       inject: [ ConfigService<IAppConfig> ],
       useFactory: (appConfig: ConfigService<IAppConfig>) => ({
         token: appConfig.get<string>('telegramApiKey') as string,
-        launchOptions: {
-          dropPendingUpdates: false,
-        },
       }),
     }),
   ],

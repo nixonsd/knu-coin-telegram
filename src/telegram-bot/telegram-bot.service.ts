@@ -1,5 +1,5 @@
 import { Ctx, Hears, On, Update } from 'nestjs-telegraf';
-import { Context } from 'telegraf';
+import { Context, Markup } from 'telegraf';
 
 @Update()
 export class TelegramBotService {
@@ -10,6 +10,6 @@ export class TelegramBotService {
 
   @On('message')
   async message(@Ctx() ctx: Context) {
-    await ctx.telegram.sendMessage(ctx.message?.chat.id as number, `Hello ${JSON.stringify(ctx.state)}`);
+    await ctx.reply('Message', Markup.keyboard([ [ '1', '2', '3' ], [ '4', '5', '6' ] ]));
   }
 }
