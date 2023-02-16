@@ -16,6 +16,10 @@
       "strictNullChecks": true,
       "skipLibCheck": true,
       "resolveJsonModule": true,
+      "paths": {
+        "@/*": ["*"],
+        "@shared/*": ["shared/*"]
+      }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "test/**/*"]
 }
