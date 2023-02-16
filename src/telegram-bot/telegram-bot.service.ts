@@ -1,15 +1,15 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { logger } from '@shared/logger';
+import { Ctx, Hears, On, Update } from 'nestjs-telegraf';
+import { Context } from 'telegraf';
 
-import TelegramBot from 'node-telegram-bot-api';
-import { TELEGRAM_API_KEY } from './constants';
-
-@Injectable()
+@Update()
 export class TelegramBotService {
-  private telegramBot: TelegramBot;
+  @Hears('hi')
+  async hears() {
+    return 'Hello World';
+  }
 
-  constructor(@Inject(TELEGRAM_API_KEY) telegramApiKey: string) {
-    this.telegramBot = new TelegramBot(telegramApiKey, { polling: true });
-    this.telegramBot.on('message', (message) => { logger.debug(message); });
+  @On('message')
+  async message(@Ctx() ctx: Context) {
+    await ctx.telegram.sendMessage(ctx.message?.chat.id as number, `Hello ${JSON.stringify(ctx.state)}`);
   }
 }

@@ -1,19 +1,25 @@
 import { IAppConfig } from '@/shared/config';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { TELEGRAM_API_KEY } from './constants';
+import { TelegrafModule } from 'nestjs-telegraf';
 import { TelegramBotService } from './telegram-bot.service';
 
 /**
  * Module responsible for interacting with telegram bot
  */
 @Module({
-  providers: [
-    {
-      provide: TELEGRAM_API_KEY,
+  imports: [
+    TelegrafModule.forRootAsync({
       inject: [ ConfigService<IAppConfig> ],
-      useFactory: (appConfig: ConfigService<IAppConfig>) => appConfig.get<IAppConfig>('telegramApiKey'),
-    },
+      useFactory: (appConfig: ConfigService<IAppConfig>) => ({
+        token: appConfig.get<string>('telegramApiKey') as string,
+        launchOptions: {
+          dropPendingUpdates: false,
+        },
+      }),
+    }),
+  ],
+  providers: [
     TelegramBotService,
   ],
 })
