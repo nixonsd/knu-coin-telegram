@@ -1,12 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Inject } from '@nestjs/common';
+import { API_VERSION } from './constants';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(@Inject(API_VERSION) private readonly appVersion: string) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get('health')
+  getStatus(): string {
+    return 'OK';
+  }
+
+  @Get('version')
+  getVersion(): string {
+    return this.appVersion;
   }
 }
