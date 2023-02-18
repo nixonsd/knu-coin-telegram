@@ -1,4 +1,4 @@
-import { Ctx, Hears, Help, InjectBot, On, Start, Update } from 'nestjs-telegraf';
+import { Ctx, Hears, Help, InjectBot, Start, Update } from 'nestjs-telegraf';
 import { Context, Markup, Telegraf } from 'telegraf';
 import { BOT_MAIN_KEYBOARD, HELP_MESSAGE, START_MESSAGE } from './constants';
 
