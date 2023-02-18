@@ -2,7 +2,7 @@ import { IAppConfig } from '@/shared/config';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TelegrafModule } from 'nestjs-telegraf';
-import { TelegramBotService } from './telegram-bot.service';
+import { TelegramBotUpdate } from './telegram-bot.update';
 
 /**
  * Module responsible for interacting with telegram bot
@@ -17,7 +17,7 @@ import { TelegramBotService } from './telegram-bot.service';
     }),
   ],
   providers: [
-    TelegramBotService,
+    TelegramBotUpdate,
   ],
 })
 export class TelegramBotModule {}
