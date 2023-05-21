@@ -5,7 +5,7 @@ import { TeacherGuard } from './guards';
 import { defaultKeyboard } from './utils';
 import { TelegrafExceptionFilter } from './filters';
 import { UseFilters, UseGuards } from '@nestjs/common';
-import { KNUCoinContractService } from '@knu-coin-contract/knu-coin-contract.service';
+import { KnuContractService } from '@knu-contract/knu-contract.service';
 import { ALL_COMMANDS, HELP_MESSAGE, START_MESSAGE, TEACHER_SCENE } from './constants';
 
 @Update()
@@ -13,7 +13,7 @@ import { ALL_COMMANDS, HELP_MESSAGE, START_MESSAGE, TEACHER_SCENE } from './cons
 export class TelegramBotUpdate {
   constructor(
     @InjectBot() private readonly bot: Telegraf,
-    private readonly knuCoinContractService: KNUCoinContractService,
+    private readonly knuContractService: KnuContractService,
   ) {
     this.bot.telegram.setMyCommands(ALL_COMMANDS);
   }
@@ -30,7 +30,7 @@ export class TelegramBotUpdate {
 
   @Hears('Баланс 💰')
   async balance(@Ctx() context: Context, @Sender('id') userId: number): Promise<string> {
-    const balance = await this.knuCoinContractService.balanceOf(userId);
+    const balance = await this.knuContractService.balanceOf(userId);
 
     return `Ваш баланс: ${ balance }KNU`;
   }

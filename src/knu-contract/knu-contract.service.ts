@@ -5,7 +5,7 @@ import { ethers } from 'ethers';
 import { abi } from '@shared/abi';
 
 @Injectable()
-export class KNUCoinContractService {
+export class KnuContractService {
   private contract: ethers.Contract;
   private decimals_?: number;
 
@@ -32,10 +32,10 @@ export class KNUCoinContractService {
     );
   }
 
-  public async createArrangement(userId: number, reward: number): Promise<void> {
+  public async createArrangement(issuer: number, reward: number): Promise<void> {
     const decimals = await this.decimals();
     await this.contract.createArrangement(
-      userId,
+      issuer,
       ethers.parseUnits(reward.toString(), decimals),
     );
   }

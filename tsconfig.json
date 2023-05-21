@@ -19,7 +19,7 @@
       "paths": {
         "@/*": ["*"],
         "@shared/*": ["shared/*"],
-        "@knu-coin-contract/*": ["knu-coin-contract/*"],
+        "@knu-contract/*": ["knu-contract/*"],
         "@telegram-bot/*": ["telegram-bot/*"]
       }
   },
