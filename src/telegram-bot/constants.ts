@@ -1,8 +1,30 @@
-import { Markup } from 'telegraf';
+export const TEACHER_SCENE = 'TEACHER_SCENE';
+export const MAIN_SCENE = 'MAIN_SCENE';
+export const MINT_WIZARD = 'MINT_WIZARD';
+export const ARRANGEMENT_WIZARD = 'ARRANGEMENT_WIZARD';
+
+export const ALL_COMMANDS = [
+  { command: 'start', description: 'Розпочати роботу з ботом' },
+  { command: 'teacher', description: 'Зайти в кімнату вчителя' },
+  { command: 'leave', description: 'Вийти з кімнати' },
+];
+
+export const TEACHER_COMMANDS = [
+  { command: 'add', description: 'Розпочати роботу з ботом' },
+  { command: 'delete', description: 'Зайти в кімнату вчителя' },
+  { command: 'leave', description: 'Вийти з кімнати' },
+];
 
 export const BOT_MAIN_KEYBOARD = [
-  [ Markup.button.callback('Send Coins 🚀', 'test'), 'Receive Coins' ],
-  [ 'Balance 💰' ],
+  [ 'Взяти участь в події 🎟️', 'Отримати винагороду 🌟' ],
+  [ 'Обмін балансу на призи 🧸' ],
+  [ 'Баланс 💰' ],
+];
+
+export const BOT_TEACHER_KEYBOARD = [
+  [ 'Мої події 📅', 'Створити подію ➕' ],
+  [ 'Нагородити учасника 💰' ],
+  [ 'На головну 🚪' ],
 ];
 
 export const START_MESSAGE = '\

@@ -1,16 +1,26 @@
-import { Ctx, Hears, Help, InjectBot, Start, Update } from 'nestjs-telegraf';
-import { Context, Markup, Telegraf } from 'telegraf';
-import { BOT_MAIN_KEYBOARD, HELP_MESSAGE, START_MESSAGE } from './constants';
+import { Command, Ctx, Hears, Help, InjectBot, Sender, Start, Update } from 'nestjs-telegraf';
+import { Telegraf } from 'telegraf';
+import { Context } from './interfaces';
+import { TeacherGuard } from './guards';
+import { defaultKeyboard } from './utils';
+import { TelegrafExceptionFilter } from './filters';
+import { UseFilters, UseGuards } from '@nestjs/common';
+import { KNUCoinContractService } from '@knu-coin-contract/knu-coin-contract.service';
+import { ALL_COMMANDS, HELP_MESSAGE, START_MESSAGE, TEACHER_SCENE } from './constants';
 
 @Update()
+@UseFilters(TelegrafExceptionFilter)
 export class TelegramBotUpdate {
-  constructor(@InjectBot() private readonly bot: Telegraf) {
-    bot.action('test', (ctx) => {console.log(ctx);});
+  constructor(
+    @InjectBot() private readonly bot: Telegraf,
+    private readonly knuCoinContractService: KNUCoinContractService,
+  ) {
+    this.bot.telegram.setMyCommands(ALL_COMMANDS);
   }
 
   @Start()
   async start(@Ctx() ctx: Context) {
-    await ctx.replyWithMarkdownV2(START_MESSAGE, Markup.keyboard(BOT_MAIN_KEYBOARD));
+    await defaultKeyboard(ctx, START_MESSAGE);
   }
 
   @Help()
@@ -18,8 +28,16 @@ export class TelegramBotUpdate {
     await ctx.replyWithMarkdownV2(HELP_MESSAGE);
   }
 
-  @Hears('Balance 💰')
-  async hears() {
-    return;
+  @Hears('Баланс 💰')
+  async balance(@Ctx() context: Context, @Sender('id') userId: number): Promise<string> {
+    const balance = await this.knuCoinContractService.balanceOf(userId);
+
+    return `Ваш баланс: ${ balance }KNU`;
+  }
+
+  @Command('teacher')
+  @UseGuards(TeacherGuard)
+  async onTeacherCommand(ctx: Context): Promise<void> {
+    await ctx.scene.enter(TEACHER_SCENE);
   }
 }

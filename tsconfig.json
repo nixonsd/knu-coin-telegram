@@ -18,7 +18,9 @@
       "resolveJsonModule": true,
       "paths": {
         "@/*": ["*"],
-        "@shared/*": ["shared/*"]
+        "@shared/*": ["shared/*"],
+        "@knu-coin-contract/*": ["knu-coin-contract/*"],
+        "@telegram-bot/*": ["telegram-bot/*"]
       }
   },
   "include": ["src/**/*", "test/**/*"]
