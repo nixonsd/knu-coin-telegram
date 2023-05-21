@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AppController } from 'app.controller';
 import { LoggerModule } from 'nestjs-pino';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { API_VERSION } from './constants';
-import { IAppConfig, getAppConfig } from './shared/config';
-import { TelegramBotModule } from './telegram-bot';
+import { AppController } from 'app.controller';
+import { IAppConfig, getAppConfig } from '@shared/config';
+import { TelegramBotModule } from '@telegram-bot/telegram-bot.module';
 
 @Module({
   imports: [
