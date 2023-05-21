@@ -6,7 +6,7 @@ import { TelegrafExceptionFilter } from '@telegram-bot/filters';
 import { Markup, Scenes } from 'telegraf';
 import { IsNumber, IsPositive } from 'class-validator';
 import { validate } from '@telegram-bot/utils';
-import { KnuContractService } from '@/knu-contract/knu-contract.service';
+import { KnuContractService } from '@knu-contract/knu-contract.service';
 
 class Arrangement {
   @IsNumber()
