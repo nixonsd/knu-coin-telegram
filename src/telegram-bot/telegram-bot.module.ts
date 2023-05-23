@@ -7,6 +7,7 @@ import { ArrangementWizard, MintWizard } from '@telegram-bot/wizards';
 import { sessionMiddleware } from '@telegram-bot/middlewares';
 import { TelegramBotUpdate } from '@telegram-bot/telegram-bot.update';
 import { KnuContractModule } from '@knu-contract/knu-contract.module';
+import { ParticipateWizard } from './wizards/participate.wizard';
 
 /**
  * Module responsible for interacting with telegram bot
@@ -26,6 +27,7 @@ import { KnuContractModule } from '@knu-contract/knu-contract.module';
     TelegramBotUpdate,
     MintWizard,
     ArrangementWizard,
+    ParticipateWizard,
     TeacherScene,
   ],
 })

@@ -2,18 +2,20 @@ export const TEACHER_SCENE = 'TEACHER_SCENE';
 export const MAIN_SCENE = 'MAIN_SCENE';
 export const MINT_WIZARD = 'MINT_WIZARD';
 export const ARRANGEMENT_WIZARD = 'ARRANGEMENT_WIZARD';
+export const PARTICIPATE_WIZARD = 'PARTICIPATE_WIZARD';
 
 export const ALL_COMMANDS = [
   { command: 'start', description: 'Розпочати роботу з ботом' },
   { command: 'teacher', description: 'Зайти в кімнату вчителя' },
-  { command: 'leave', description: 'Вийти з кімнати' },
+  { command: 'leave', description: 'Вийти з кімнати вчителя' },
+  { command: 'back', description: 'Вийти з опитування' },
 ];
 
-export const TEACHER_COMMANDS = [
-  { command: 'add', description: 'Розпочати роботу з ботом' },
-  { command: 'delete', description: 'Зайти в кімнату вчителя' },
-  { command: 'leave', description: 'Вийти з кімнати' },
-];
+// export const TEACHER_COMMANDS = [
+//   { command: 'add', description: 'Розпочати роботу з ботом' },
+//   { command: 'delete', description: 'Зайти в кімнату вчителя' },
+//   { command: 'leave', description: 'Вийти з кімнати' },
+// ];
 
 export const BOT_MAIN_KEYBOARD = [
   [ 'Взяти участь в події 🎟️', 'Отримати винагороду 🌟' ],

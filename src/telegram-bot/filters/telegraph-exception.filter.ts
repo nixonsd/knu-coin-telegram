@@ -9,5 +9,6 @@ export class TelegrafExceptionFilter implements ExceptionFilter {
     const ctx = telegrafHost.getContext<Scenes.SceneContext>();
 
     await ctx.replyWithHTML(`<b>Помилка</b>: ${exception.message}`);
+    await ctx.scene.reenter();
   }
 }

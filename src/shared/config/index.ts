@@ -1,5 +1,5 @@
 import { plainToClass } from 'class-transformer';
-import { IsEnum, IsEthereumAddress, IsNumber, IsOptional, IsString, IsUrl, validateSync } from 'class-validator';
+import { IsEnum, IsEthereumAddress, IsNotEmpty, IsNumber, IsOptional, IsString, IsUrl, validateSync } from 'class-validator';
 
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -17,6 +17,7 @@ export interface IAppConfig {
   telegramApiKey: string;
   web3ProviderUri: string;
   contractAddress: string;
+  signerPrivateKey: string;
 }
 
 export class AppConfigValidator implements IAppConfig {
@@ -42,6 +43,10 @@ export class AppConfigValidator implements IAppConfig {
 
   @IsEthereumAddress()
   readonly contractAddress!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly signerPrivateKey!: string;
 }
 
 export const getAppConfig = (): IAppConfig => {
@@ -53,6 +58,7 @@ export const getAppConfig = (): IAppConfig => {
     telegramApiKey: process.env.TELEGRAM_API_KEY as string,
     web3ProviderUri: process.env.WEB3_PROVIDER_URI as string,
     contractAddress: process.env.CONTRACT_ADDRESS as string,
+    signerPrivateKey: process.env.SIGNER_PRIVATE_KEY as string,
   };
 
   return validate(config, AppConfigValidator);

@@ -12,7 +12,6 @@ export class TeacherGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = TelegrafExecutionContext.create(context);
     const { from } = ctx.getContext<Context>();
-
     const isTeacher = await this.knuContractService.isTeacher(from?.id as number);
     if (!isTeacher) {
       throw new TelegrafException('Ви не вчитель! 😡');

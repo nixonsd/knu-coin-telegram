@@ -6,7 +6,7 @@ import { defaultKeyboard } from './utils';
 import { TelegrafExceptionFilter } from './filters';
 import { UseFilters, UseGuards } from '@nestjs/common';
 import { KnuContractService } from '@knu-contract/knu-contract.service';
-import { ALL_COMMANDS, HELP_MESSAGE, START_MESSAGE, TEACHER_SCENE } from './constants';
+import { ALL_COMMANDS, HELP_MESSAGE, PARTICIPATE_WIZARD, START_MESSAGE, TEACHER_SCENE } from './constants';
 
 @Update()
 @UseFilters(TelegrafExceptionFilter)
@@ -28,8 +28,19 @@ export class TelegramBotUpdate {
     await ctx.replyWithMarkdownV2(HELP_MESSAGE);
   }
 
+  @Hears('Взяти участь в події 🎟️')
+  async participateArrangement(@Ctx() ctx: Context): Promise<void> {
+    await ctx.scene.enter(PARTICIPATE_WIZARD, {}, true);
+    await ctx.scene.reenter();
+  }
+
+  @Hears('Отримати винагороду 🌟')
+  async getReward(@Ctx() ctx: Context, @Sender('id') userId: string): Promise<void> {
+    await ctx.replyWithHTML(`Ваш ідентифікатор користувача: <b><code>${userId}</code></b>. Вкажіть цей код Вашому вчителю`);
+  }
+
   @Hears('Баланс 💰')
-  async balance(@Ctx() context: Context, @Sender('id') userId: number): Promise<string> {
+  async balance(@Sender('id') userId: number): Promise<string> {
     const balance = await this.knuContractService.balanceOf(userId);
 
     return `Ваш баланс: ${ balance }KNU`;
@@ -40,4 +51,6 @@ export class TelegramBotUpdate {
   async onTeacherCommand(ctx: Context): Promise<void> {
     await ctx.scene.enter(TEACHER_SCENE);
   }
+
+  // ! ПРОДУМАТИ ОБМІН ГРОШЕЙ НА ПРИЗИ Й РЕАЛІЗУВАТИ ЦЕ
 }
