@@ -125,13 +125,20 @@ export class TeacherScene {
 
   @Command('add')
   async onAddCommand(@Ctx() ctx: Context, @Sender('id') issuer: number, @Message('text') message: string): Promise<void> {
-    const [ , userId, amount ] = message.split(' ');
-    await this.knuContractService.mint(issuer, Number(userId), Number(amount));
-    await ctx.replyWithHTML(`Користувачу відправлено <b>${amount}KNU</b>`);
+    const [ , memberId ] = message.split(' ');
+    await this.knuContractService.addTeacher(issuer, Number(memberId));
+    await ctx.replyWithHTML(`Користувачу з ідентифікатором <code>${ memberId }</code> додано роль <b>Вчитель</b>`);
   }
 
-  @Command('leave')
-  async onLeaveCommand(ctx: Context): Promise<void> {
+  @Command('remove')
+  async onRemoveCommand(@Ctx() ctx: Context, @Sender('id') issuer: number, @Message('text') message: string): Promise<void> {
+    const [ , memberId ] = message.split(' ');
+    await this.knuContractService.removeTeacher(issuer, Number(memberId));
+    await ctx.replyWithHTML(`Користувачу з ідентифікатором <code>${ memberId }</code> видалено роль <b>Вчитель</b>`);
+  }
+
+  @Command('back')
+  async onBackCommand(ctx: Context): Promise<void> {
     await ctx.scene.leave();
   }
 }

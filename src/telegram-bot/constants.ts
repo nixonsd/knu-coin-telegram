@@ -8,13 +8,13 @@ export const REDEEM_WIZARD = 'REDEEM_WIZARD';
 export const ALL_COMMANDS = [
   { command: 'start', description: 'Розпочати роботу з ботом' },
   { command: 'teacher', description: 'Зайти в кімнату вчителя' },
-  { command: 'leave', description: 'Вийти з кімнати вчителя' },
-  { command: 'back', description: 'Вийти з опитування' },
+  { command: 'add', description: 'Додати нового вчителя' },
+  { command: 'remove', description: 'Видалити права вчителя у користувача' },
+  { command: 'back', description: 'Вийти' },
 ];
 
 export const BOT_MAIN_KEYBOARD = [
   [ 'Взяти участь в події 🎟️', 'Отримати винагороду 🌟' ],
-  // [ 'Обмін балансу на призи 🧸' ],
   [ 'Баланс 💰' ],
 ];
 

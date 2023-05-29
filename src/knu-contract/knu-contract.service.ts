@@ -99,6 +99,22 @@ export class KnuContractService {
     }
   }
 
+  public async addTeacher(issuer: number, memberId: number) {
+    const isTeacher = await this.contract.isTeacher(memberId);
+    if (isTeacher) {
+      throw new TelegrafException('Користувач вже є вчителем!');
+    }
+    await this.contract.addTeacher(issuer, memberId);
+  }
+
+  public async removeTeacher(issuer: number, memberId: number) {
+    const isTeacher = await this.contract.isTeacher(memberId);
+    if (!isTeacher) {
+      throw new TelegrafException('Користувач не є вчителем!');
+    }
+    await this.contract.removeTeacher(issuer, memberId);
+  }
+
   public async getArrangementsOf(teacherId: number): Promise<number[]> {
     return this.contract.getArrangementsOf(teacherId);
   }

@@ -52,6 +52,4 @@ export class TelegramBotUpdate {
   async onTeacherCommand(ctx: Context): Promise<void> {
     await ctx.scene.enter(TEACHER_SCENE);
   }
-
-  // ! ПРОДУМАТИ ОБМІН ГРОШЕЙ НА ПРИЗИ Й РЕАЛІЗУВАТИ ЦЕ
 }
