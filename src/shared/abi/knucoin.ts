@@ -7,6 +7,11 @@ export const abi = [
         'type': 'uint64',
       },
       {
+        'internalType': 'uint128',
+        'name': 'teacherArrangementLimit',
+        'type': 'uint128',
+      },
+      {
         'internalType': 'string',
         'name': 'name_',
         'type': 'string',
@@ -36,7 +41,7 @@ export const abi = [
         'type': 'uint64',
       },
       {
-        'indexed': false,
+        'indexed': true,
         'internalType': 'enum Arrangements.ArrangementStatus',
         'name': 'arrangementStatus',
         'type': 'uint8',
@@ -61,7 +66,7 @@ export const abi = [
         'type': 'uint64',
       },
       {
-        'indexed': false,
+        'indexed': true,
         'internalType': 'enum Arrangements.MembershipStatus',
         'name': 'membershipStatus',
         'type': 'uint8',
@@ -105,7 +110,7 @@ export const abi = [
         'type': 'uint64',
       },
       {
-        'indexed': false,
+        'indexed': true,
         'internalType': 'enum Teachers.TeacherStatus',
         'name': 'teacherStatus',
         'type': 'uint8',
@@ -140,6 +145,19 @@ export const abi = [
     'type': 'event',
   },
   {
+    'inputs': [],
+    'name': 'ARRANGEMENT_LIMIT',
+    'outputs': [
+      {
+        'internalType': 'uint128',
+        'name': '',
+        'type': 'uint128',
+      },
+    ],
+    'stateMutability': 'view',
+    'type': 'function',
+  },
+  {
     'inputs': [
       {
         'internalType': 'uint64',
@@ -171,45 +189,13 @@ export const abi = [
       },
       {
         'internalType': 'uint64',
-        'name': 'userId',
+        'name': 'memberId',
         'type': 'uint64',
       },
     ],
     'name': 'addTeacher',
     'outputs': [],
     'stateMutability': 'nonpayable',
-    'type': 'function',
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint128',
-        'name': 'arrangementId',
-        'type': 'uint128',
-      },
-    ],
-    'name': 'arrangementExists',
-    'outputs': [
-      {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool',
-      },
-    ],
-    'stateMutability': 'view',
-    'type': 'function',
-  },
-  {
-    'inputs': [],
-    'name': 'arrangementLimit',
-    'outputs': [
-      {
-        'internalType': 'uint256',
-        'name': '',
-        'type': 'uint256',
-      },
-    ],
-    'stateMutability': 'view',
     'type': 'function',
   },
   {
@@ -293,7 +279,7 @@ export const abi = [
         'type': 'uint128',
       },
     ],
-    'name': 'getArrangementData',
+    'name': 'getArrangement',
     'outputs': [
       {
         'internalType': 'bytes32',
@@ -304,6 +290,11 @@ export const abi = [
         'internalType': 'uint32',
         'name': 'reward',
         'type': 'uint32',
+      },
+      {
+        'internalType': 'uint64',
+        'name': 'creatorId',
+        'type': 'uint64',
       },
     ],
     'stateMutability': 'view',
@@ -317,7 +308,7 @@ export const abi = [
         'type': 'uint64',
       },
     ],
-    'name': 'getArrangements',
+    'name': 'getArrangementsOf',
     'outputs': [
       {
         'internalType': 'uint128[]',
@@ -392,10 +383,53 @@ export const abi = [
         'name': 'arrangementId',
         'type': 'uint128',
       },
+    ],
+    'name': 'isArrangement',
+    'outputs': [
+      {
+        'internalType': 'bool',
+        'name': '',
+        'type': 'bool',
+      },
+    ],
+    'stateMutability': 'view',
+    'type': 'function',
+  },
+  {
+    'inputs': [
       {
         'internalType': 'uint64',
         'name': 'memberId',
         'type': 'uint64',
+      },
+      {
+        'internalType': 'uint128',
+        'name': 'arrangementId',
+        'type': 'uint128',
+      },
+    ],
+    'name': 'isCreator',
+    'outputs': [
+      {
+        'internalType': 'bool',
+        'name': '',
+        'type': 'bool',
+      },
+    ],
+    'stateMutability': 'view',
+    'type': 'function',
+  },
+  {
+    'inputs': [
+      {
+        'internalType': 'uint64',
+        'name': 'memberId',
+        'type': 'uint64',
+      },
+      {
+        'internalType': 'uint128',
+        'name': 'arrangementId',
+        'type': 'uint128',
       },
     ],
     'name': 'isMember',
@@ -413,31 +447,7 @@ export const abi = [
     'inputs': [
       {
         'internalType': 'uint64',
-        'name': 'teacherId',
-        'type': 'uint64',
-      },
-      {
-        'internalType': 'uint128',
-        'name': 'arrangementId',
-        'type': 'uint128',
-      },
-    ],
-    'name': 'isOwner',
-    'outputs': [
-      {
-        'internalType': 'bool',
-        'name': '',
-        'type': 'bool',
-      },
-    ],
-    'stateMutability': 'view',
-    'type': 'function',
-  },
-  {
-    'inputs': [
-      {
-        'internalType': 'uint64',
-        'name': 'id',
+        'name': 'memberId',
         'type': 'uint64',
       },
     ],
@@ -461,7 +471,7 @@ export const abi = [
       },
       {
         'internalType': 'uint64',
-        'name': 'userId',
+        'name': 'memberId',
         'type': 'uint64',
       },
       {
@@ -499,6 +509,29 @@ export const abi = [
       },
     ],
     'stateMutability': 'view',
+    'type': 'function',
+  },
+  {
+    'inputs': [
+      {
+        'internalType': 'uint64',
+        'name': 'issuer',
+        'type': 'uint64',
+      },
+      {
+        'internalType': 'uint64',
+        'name': 'memberId',
+        'type': 'uint64',
+      },
+      {
+        'internalType': 'uint32',
+        'name': 'amount',
+        'type': 'uint32',
+      },
+    ],
+    'name': 'redeem',
+    'outputs': [],
+    'stateMutability': 'nonpayable',
     'type': 'function',
   },
   {
@@ -551,7 +584,7 @@ export const abi = [
       },
       {
         'internalType': 'uint64',
-        'name': 'userId',
+        'name': 'memberId',
         'type': 'uint64',
       },
     ],

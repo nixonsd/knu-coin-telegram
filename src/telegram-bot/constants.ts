@@ -3,6 +3,7 @@ export const MAIN_SCENE = 'MAIN_SCENE';
 export const MINT_WIZARD = 'MINT_WIZARD';
 export const ARRANGEMENT_WIZARD = 'ARRANGEMENT_WIZARD';
 export const PARTICIPATE_WIZARD = 'PARTICIPATE_WIZARD';
+export const REDEEM_WIZARD = 'REDEEM_WIZARD';
 
 export const ALL_COMMANDS = [
   { command: 'start', description: 'Розпочати роботу з ботом' },
@@ -11,21 +12,15 @@ export const ALL_COMMANDS = [
   { command: 'back', description: 'Вийти з опитування' },
 ];
 
-// export const TEACHER_COMMANDS = [
-//   { command: 'add', description: 'Розпочати роботу з ботом' },
-//   { command: 'delete', description: 'Зайти в кімнату вчителя' },
-//   { command: 'leave', description: 'Вийти з кімнати' },
-// ];
-
 export const BOT_MAIN_KEYBOARD = [
   [ 'Взяти участь в події 🎟️', 'Отримати винагороду 🌟' ],
-  [ 'Обмін балансу на призи 🧸' ],
+  // [ 'Обмін балансу на призи 🧸' ],
   [ 'Баланс 💰' ],
 ];
 
 export const BOT_TEACHER_KEYBOARD = [
   [ 'Мої події 📅', 'Створити подію ➕' ],
-  [ 'Нагородити учасника 💰' ],
+  [ 'Нагородити учасника 💰', 'Списати з учасника ➖' ],
   [ 'На головну 🚪' ],
 ];
 

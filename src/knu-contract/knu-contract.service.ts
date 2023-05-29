@@ -35,6 +35,16 @@ export class KnuContractService {
     await this.contract.mint(issuer, userId, ethers.parseUnits(amount.toString(), decimals));
   }
 
+  public async redeem(issuer: number, userId: number, amount: number): Promise<void> {
+    const decimals = await this.decimals();
+    const balanceOf = await this.balanceOf(userId);
+    if (Number(balanceOf) >= amount) {
+      await this.contract.redeem(issuer, userId, ethers.parseUnits(amount.toString(), decimals));
+    } else {
+      throw new TelegrafException(`У користувача немає таких коштів. Його поточний баланс: ${balanceOf}KNU`);
+    }
+  }
+
   public async createArrangement(issuer: number, name: string, reward: number): Promise<void> {
     const decimals = await this.decimals();
     const totalArrangements = await this.getTotalArrangements(issuer);
@@ -46,8 +56,8 @@ export class KnuContractService {
   }
 
   public async removeArrangement(issuer: number, arrangementId: number): Promise<void> {
-    const isIssuerOwner = await this.isOwner(issuer, arrangementId);
-    if (isIssuerOwner) {
+    const isCreator = await this.isCreator(issuer, arrangementId);
+    if (isCreator) {
       await this.contract.removeArrangement(issuer, arrangementId);
     } else {
       throw new TelegrafException('Ви не власник цієї події!');
@@ -55,17 +65,20 @@ export class KnuContractService {
   }
 
   public async finishArrangement(issuer: number, arrangementId: number): Promise<void> {
-    const isIssuerOwner = await this.isOwner(issuer, arrangementId);
-    if (isIssuerOwner) {
+    const isCreator = await this.isCreator(issuer, arrangementId);
+    if (isCreator) {
       await this.contract.finishArrangement(issuer, arrangementId);
     } else {
       throw new TelegrafException('Ви не власник цієї події!');
     }
   }
 
-  public async getArrangementData(arrangementId: number): Promise<Arrangement> {
+  public async getArrangement(arrangementId: number): Promise<Arrangement> {
+    const isArrangement = await this.isArrangement(arrangementId);
+    if (!isArrangement) throw new TelegrafException('Такої події не існує!');
+
     const decimals = await this.decimals();
-    const [ name, reward ] = await this.contract.getArrangementData(arrangementId);
+    const [ name, reward ] = await this.contract.getArrangement(arrangementId);
 
     return {
       name: ethers.decodeBytes32String(name),
@@ -74,32 +87,32 @@ export class KnuContractService {
   }
 
   public async addMember(issuer: number, memberId: number, arrangementId: number) {
-    const isMember = await this.contract.isMember(arrangementId, memberId);
+    const isMember = await this.contract.isMember(memberId, arrangementId);
     if (isMember) {
       throw new TelegrafException('Ви вже є учасником цієї події!');
     }
-    const arrangementExists = await this.arrangementExists(arrangementId);
-    if (arrangementExists) {
+    const isArrangement = await this.isArrangement(arrangementId);
+    if (isArrangement) {
       await this.contract.addMember(issuer, memberId, arrangementId);
     } else {
       throw new TelegrafException('Такої події не існує!');
     }
   }
 
-  public async getArrangements(teacherId: number): Promise<number[]> {
-    return this.contract.getArrangements(teacherId);
+  public async getArrangementsOf(teacherId: number): Promise<number[]> {
+    return this.contract.getArrangementsOf(teacherId);
   }
 
   public async getTotalArrangements(teacherId: number): Promise<number> {
     return this.contract.getTotalArrangements(teacherId);
   }
 
-  public async isOwner(teacherId: number, arrangementId: number): Promise<boolean> {
-    return this.contract.isOwner(teacherId, arrangementId);
+  public async isCreator(teacherId: number, arrangementId: number): Promise<boolean> {
+    return this.contract.isCreator(teacherId, arrangementId);
   }
 
-  public async arrangementExists(arrangementId: number): Promise<boolean> {
-    return this.contract.arrangementExists(arrangementId);
+  public async isArrangement(arrangementId: number): Promise<boolean> {
+    return this.contract.isArrangement(arrangementId);
   }
 
   public async isTeacher(userId: number): Promise<boolean> {

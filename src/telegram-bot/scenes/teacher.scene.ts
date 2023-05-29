@@ -5,7 +5,7 @@ import { Context } from '@telegram-bot/interfaces';
 import { TeacherGuard } from '@telegram-bot/guards';
 import { TelegrafExceptionFilter } from '@telegram-bot/filters';
 import { defaultKeyboard } from '@telegram-bot/utils';
-import { ARRANGEMENT_WIZARD, BOT_TEACHER_KEYBOARD, MINT_WIZARD, TEACHER_SCENE } from '@telegram-bot/constants';
+import { ARRANGEMENT_WIZARD, BOT_TEACHER_KEYBOARD, MINT_WIZARD, REDEEM_WIZARD, TEACHER_SCENE } from '@telegram-bot/constants';
 import { KnuContractService } from '@knu-contract/knu-contract.service';
 
 const arrangementInlineKeyboard = (arrangementId: number) =>  Markup.inlineKeyboard([
@@ -54,12 +54,12 @@ export class TeacherScene {
 
   @Hears('Мої події 📅')
   async onMyArrangementsMessage(@Ctx() ctx: Context, @Sender('id') issuer: number): Promise<void> {
-    const arrangements = await this.knuContractService.getArrangements(issuer);
+    const arrangements = await this.knuContractService.getArrangementsOf(issuer);
     if (arrangements.length < 1) {
       await ctx.reply('Ви не маєте жодної створеної події!');
     }
     arrangements.map(async (arrangementId) => {
-      const arrangement = await this.knuContractService.getArrangementData(arrangementId);
+      const arrangement = await this.knuContractService.getArrangement(arrangementId);
       await ctx.replyWithHTML(
         `Подія під назвою "${arrangement.name}" з ідентифікатором <b><code>${arrangementId}</code></b>. Винагорода за подію: ${arrangement.reward}<b>KNU</b>`,
         arrangementInlineKeyboard(arrangementId),
@@ -76,7 +76,7 @@ export class TeacherScene {
   @Action(/^cancel:[0-9]+$/)
   async onCancelAction(@Ctx() ctx: Context): Promise<void> {
     const arrangementId: number = (ctx.callbackQuery as any).data.split(':')[1];
-    const arrangement = await this.knuContractService.getArrangementData(arrangementId);
+    const arrangement = await this.knuContractService.getArrangement(arrangementId);
     await ctx.editMessageText(
       `Подія під назвою "${arrangement.name}" з ідентифікатором <b><code>${arrangementId}</code></b>. Винагорода за подію: ${arrangement.reward}<b>KNU</b>`,
       { parse_mode: 'HTML',
@@ -114,6 +114,12 @@ export class TeacherScene {
   @Hears('Нагородити учасника 💰')
   async onMintMessage(@Ctx() ctx: Context): Promise<void> {
     await ctx.scene.enter(MINT_WIZARD, {}, true);
+    await ctx.scene.reenter();
+  }
+
+  @Hears('Списати з учасника ➖')
+  async onRedeemMessage(@Ctx() ctx: Context): Promise<void> {
+    await ctx.scene.enter(REDEEM_WIZARD, {}, true);
     await ctx.scene.reenter();
   }
 

@@ -40,10 +40,10 @@ export class ParticipateWizard {
   async process(@Ctx() ctx: Scenes.WizardContext, @Sender('id') issuer: number) {
     const state = ctx.wizard.state as Participation;
     validate<Participation>(state, Participation);
-    const arrangementData = await this.knuContractService.getArrangementData(Number(state.arrangementId));
+    const arrangement = await this.knuContractService.getArrangement(Number(state.arrangementId));
     await this.knuContractService.addMember(issuer, issuer, Number(state.arrangementId));
     await ctx.replyWithHTML(
-      `Вас було додано до події під назвою ${arrangementData.name} з ідентифікатором <b>${state.arrangementId}</b>. Винагорода за подію: ${arrangementData.reward}<b>KNU</b>`,
+      `Вас було додано до події під назвою ${arrangement.name} з ідентифікатором <b>${state.arrangementId}</b>. Винагорода за подію: ${arrangement.reward}<b>KNU</b>`,
       mainKeyboard,
     );
     await ctx.scene.leave();

@@ -35,6 +35,7 @@ export class TelegramBotUpdate {
   }
 
   @Hears('Отримати винагороду 🌟')
+  @Hears('Обмін балансу на призи 🧸')
   async getReward(@Ctx() ctx: Context, @Sender('id') userId: string): Promise<void> {
     await ctx.replyWithHTML(`Ваш ідентифікатор користувача: <b><code>${userId}</code></b>. Вкажіть цей код Вашому вчителю`);
   }
